@@ -58,3 +58,8 @@ body {
     font-size: 14px;
     color: var(--message-text-color);
 }
+.delete-icon {
+    cursor: pointer;
+    padding-left: 10px;
+    color: red;
+}
