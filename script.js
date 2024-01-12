@@ -64,12 +64,18 @@ const saveResult = () => {
     
     if (name && selectedGender) {
         let savedResults = JSON.parse(localStorage.getItem("savedResults")) || [];
-        // Find index of existing entry with the same name and prefix
-        const existingIndex = savedResults.findIndex(result => result.includes(` ${name}`));
+        // Find index of existing entry with the same name
+        const existingIndex = savedResults.findIndex(result => result.split(" ")[1] === name);
         if (existingIndex !== -1) {
-            // Update existing entry with new gender selection
-            savedResults[existingIndex] = resultToSave;
-            showMessage(`The name "${name}" was previously saved and has now been updated.`);
+            // Check if the prefix matches, if not, update only the prefix
+            const existingPrefix = savedResults[existingIndex].split(" ")[0];
+            const newPrefix = selectedGender === "male" ? "Mr." : "Ms.";
+            if (existingPrefix !== newPrefix) {
+                savedResults[existingIndex] = resultToSave;
+                showMessage(`The prefix for "${name}" was updated.`);
+            } else {
+                showMessage(`The name "${name}" is updated.`);
+            }
         } else {
             // Add new entry
             savedResults.push(resultToSave);
