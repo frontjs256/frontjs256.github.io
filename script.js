@@ -49,7 +49,15 @@ const predictGender = async () => {
     }
 };
 
-// Function to save or update result with priority given to the gender radio input
+// Function to delete a result from the saved list
+const deleteResult = (event) => {
+    const index = event.target.dataset.index;
+    let savedResults = JSON.parse(localStorage.getItem("savedResults")) || [];
+    savedResults.splice(index, 1);
+    localStorage.setItem("savedResults", JSON.stringify(savedResults));
+    displaySavedResults(); // Refresh the saved list
+    showMessage("Name has been deleted.");
+};
 
 // Function to clear saved results
 const clearSavedResults = () => {
@@ -58,10 +66,26 @@ const clearSavedResults = () => {
     showMessage("All saved results have been cleared.");
 };
 
-// Function to display saved results
+// Function to display saved results from local storage with a delete icon
 const displaySavedResults = () => {
     const savedResults = JSON.parse(localStorage.getItem("savedResults")) || [];
-    ELEMENTS.savedResult.innerHTML = '<ol>' + savedResults.map(result => `<li>${result}</li>`).join('') + '</ol>';
+    ELEMENTS.savedResult.innerHTML = savedResults.map((result, index) => `
+        <li>
+            ${result}
+            <span class="delete-icon" data-index="${index}">&#10006;</span>
+        </li>
+    `).join('');
+
+    // Attach click event listeners to the delete icons after updating the DOM
+    attachDeleteListeners();
+};
+
+// Function to attach event listeners to delete icons
+const attachDeleteListeners = () => {
+    const deleteIcons = document.querySelectorAll('.delete-icon');
+    deleteIcons.forEach(icon => {
+        icon.addEventListener('click', deleteResult);
+    });
 };
 
 // Attach event listeners
