@@ -67,17 +67,24 @@ const clearSavedResults = () => {
 };
 
 // Function to display saved results from local storage with a delete icon
+// Function to display saved results from local storage with a delete icon
 const displaySavedResults = () => {
-    const savedResults = JSON.parse(localStorage.getItem("savedResults")) || [];
-    ELEMENTS.savedResult.innerHTML = savedResults.map((result, index) => `
-        <li>
-            ${result}
-            <span class="delete-icon" data-index="${index}">&#10006;</span>
-        </li>
-    `).join('');
+   const savedResults = JSON.parse(localStorage.getItem("savedResults")) || [];
+   // Start the ordered list
+   let listHTML = '<ol>';
+   // Add list items
+   listHTML += savedResults.map((result, index) => `
+       <li>
+           ${result}
+           <span class="delete-icon" data-index="${index}">&#10006;</span>
+       </li>
+   `).join('');
+   // Close the ordered list
+   listHTML += '</ol>';
+   ELEMENTS.savedResult.innerHTML = listHTML;
 
-    // Attach click event listeners to the delete icons after updating the DOM
-    attachDeleteListeners();
+   // Attach click event listeners to the delete icons after updating the DOM
+   attachDeleteListeners();
 };
 
 // Function to attach event listeners to delete icons
