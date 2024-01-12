@@ -1,3 +1,4 @@
+/* Root variables for easy theme management */
 :root {
     --background-color: #fff;
     --border-color: #000;
@@ -9,6 +10,7 @@
     --message-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Global body styles, setting up the background and font */
 body {
     margin: 0;
     padding: 0;
@@ -20,8 +22,9 @@ body {
     font-family: var(--font-family);
 }
 
+/* Styling for the main content area */
 .content {
-    width: 90%;
+    width: 80%;
     max-width: 400px;
     background-color: var(--background-color);
     text-align: center;
@@ -33,6 +36,7 @@ body {
     gap: 20px;
 }
 
+/* Flex container styles for left and right sections */
 .left, .right {
     display: flex;
     flex-direction: column;
@@ -40,6 +44,7 @@ body {
     align-items: center;
 }
 
+/* Message area styles for notifications */
 #messageArea {
     position: fixed;
     top: 20px;
