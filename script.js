@@ -20,9 +20,15 @@ const showMessage = (message) => {
 
 // Function to predict gender
 const predictGender = async () => {
-    const name = ELEMENTS.nameInput.value.trim();
+    const nameInput = ELEMENTS.nameInput;
+    const name = nameInput.value.trim();
+    const validNamePattern = /^[A-Za-z-]+$/;
     if (!name) {
         showMessage("Please enter a name.");
+        return;
+    }
+    if (!validNamePattern.test(name)) {
+        showMessage("Name can only contain English letters and hyphens.");
         return;
     }
     try {
@@ -59,11 +65,11 @@ const saveResult = () => {
     if (name && selectedGender) {
         let savedResults = JSON.parse(localStorage.getItem("savedResults")) || [];
         // Find index of existing entry with the same name and prefix
-        const existingIndex = savedResults.findIndex(result => result === resultToSave);
+        const existingIndex = savedResults.findIndex(result => result.includes(` ${name}`));
         if (existingIndex !== -1) {
             // Update existing entry with new gender selection
             savedResults[existingIndex] = resultToSave;
-            showMessage(`The name "${name}" was already saved and has now been updated.`);
+            showMessage(`The name "${name}" was previously saved and has now been updated.`);
         } else {
             // Add new entry
             savedResults.push(resultToSave);
