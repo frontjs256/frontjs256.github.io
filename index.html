@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>predict Gender</title>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="messageArea" style="display: none;"></div>
+    <div class="content">
+        
+        <div class="left">
+            
+            <h2>mr. or ms.?</h2>
+            <h4>Name</h4>
+            <form id="genderForm" onsubmit="event.preventDefault(); predictGender();">
+                <input type="text" id="nameInput" maxlength="255" placeholder="Enter a name" required>
+                <div id="genderSelect">
+                    <label for="maleOption">
+                        <input type="radio" id="maleOption" name="gender" value="male" checked>
+                        Male
+                    </label>
+                    <label for="femaleOption">
+                        <input type="radio" id="femaleOption" name="gender" value="female">
+                        Female
+                    </label>
+                </div>
+                <button type="submit" id="predictButton">Submit</button>
+                <button type="button" onclick="saveResult()" id="saveButton">Save</button>
+            </form>
+        </div>
+        <div class="right">
+            <h2>Prediction</h2>
+            <div id="predictionResult"></div>
+            <div id="savedAnswer">
+                <h2>Saved Answers</h2>
+                <ul id="savedResult"></ul> <!-- Update this line -->
+                <button type="button" onclick="clearSavedResults()">Clear All</button>
+            </div>
+        </div>
+    </div>
+        
+</body>
+<script src="script.js"></script> 
+</html>
+
+</html>

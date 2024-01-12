@@ -1,0 +1,55 @@
+:root {
+    --background-color: #fff;
+    --border-color: #000;
+    --text-color: #333;
+    --font-family: Arial, sans-serif;
+    --message-background-color: #f8f8f8;
+    --message-border-color: #ccc;
+    --message-text-color: #333;
+    --message-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    background-image: url("img/back.jpg");
+    background-size: cover;
+    font-family: var(--font-family);
+}
+
+.content {
+    width: 90%;
+    max-width: 400px;
+    background-color: var(--background-color);
+    text-align: center;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.left, .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#messageArea {
+    position: fixed;
+    top: 20px;
+    right: 50%;
+    transform: translateX(50%);
+    padding: 10px;
+    background-color: var(--message-background-color);
+    border: 1px solid var(--message-border-color);
+    border-radius: 5px;
+    box-shadow: var(--message-box-shadow);
+    font-size: 14px;
+    color: var(--message-text-color);
+}
