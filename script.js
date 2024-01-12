@@ -50,43 +50,6 @@ const predictGender = async () => {
 };
 
 // Function to save or update result with priority given to the gender radio input
-const saveResult = () => {
-    const name = ELEMENTS.nameInput.value.trim();
-    const genderOptions = document.getElementsByName('gender');
-    let selectedGender = '';
-    for (const option of genderOptions) {
-        if (option.checked) {
-            selectedGender = option.value;
-            break;
-        }
-    }
-    const resultToSave = selectedGender === "male" ? `Mr. ${name}` : `Ms. ${name}`;
-    
-    if (name && selectedGender) {
-        let savedResults = JSON.parse(localStorage.getItem("savedResults")) || [];
-        // Find index of existing entry with the same name
-        const existingIndex = savedResults.findIndex(result => result.split(" ")[1] === name);
-        if (existingIndex !== -1) {
-            // Check if the prefix matches, if not, update only the prefix
-            const existingPrefix = savedResults[existingIndex].split(" ")[0];
-            const newPrefix = selectedGender === "male" ? "Mr." : "Ms.";
-            if (existingPrefix !== newPrefix) {
-                savedResults[existingIndex] = resultToSave;
-                showMessage(`The prefix for "${name}" was updated.`);
-            } else {
-                showMessage(`The name "${name}" is updated.`);
-            }
-        } else {
-            // Add new entry
-            savedResults.push(resultToSave);
-            showMessage(`The name "${name}" has been saved.`);
-        }
-        localStorage.setItem("savedResults", JSON.stringify(savedResults));
-        displaySavedResults(); // Refresh the saved list
-    } else {
-        showMessage("Please enter a name and select a gender.");
-    }
-};
 
 // Function to clear saved results
 const clearSavedResults = () => {
@@ -104,7 +67,46 @@ const displaySavedResults = () => {
 // Attach event listeners
 document.addEventListener("DOMContentLoaded", () => {
     ELEMENTS.predictButton.addEventListener("click", predictGender);
-    ELEMENTS.saveButton.addEventListener("click", saveResult);
+    ELEMENTS.saveButton.addEventListener("click", (() => {
+    const name = ELEMENTS.nameInput.value.trim();
+    const genderOptions = document.getElementsByName('gender');
+    let selectedGender = '';
+    for (const option of genderOptions) {
+        if (option.checked) {
+            selectedGender = option.value;
+            break;
+        }
+    }
+    const resultToSave = selectedGender === "male" ? `Mr. ${name}` : `Ms. ${name}`;
+    
+    if (name && selectedGender) {
+        let savedResults = JSON.parse(localStorage.getItem("savedResults")) || [];
+        // Find index of existing entry with the same name
+        const existingIndex = savedResults.findIndex(result => {
+            // Check if the result has a space
+            if (result.includes(' ')) {
+                // Extract the name part from the result (after the prefix)
+                const resultName = result.split(' ')[1];
+                return resultName === name;
+            }
+            // If the result doesn't have a space, it's not a match
+            return false;
+        });
+        if (existingIndex !== -1) {
+            // Update existing entry with new gender selection
+            savedResults[existingIndex] = resultToSave;
+            showMessage(`The name "${name}" was previously saved and has now been updated.`);
+        } else {
+            // Add new entry
+            savedResults.push(resultToSave);
+            showMessage(`The name "${name}" has been saved.`);
+        }
+        localStorage.setItem("savedResults", JSON.stringify(savedResults));
+        displaySavedResults(); // Refresh the saved list
+    } else {
+        showMessage("Please enter a name and select a gender.");
+    }
+}));
     ELEMENTS.genderForm.addEventListener("submit", (e) => {
         e.preventDefault();
         predictGender();
